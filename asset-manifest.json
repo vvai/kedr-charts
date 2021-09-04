@@ -1,22 +1,25 @@
 {
   "files": {
-    "main.css": "/kedr-charts/static/css/main.a617e044.chunk.css",
-    "main.js": "/kedr-charts/static/js/main.2422818d.chunk.js",
-    "main.js.map": "/kedr-charts/static/js/main.2422818d.chunk.js.map",
-    "runtime-main.js": "/kedr-charts/static/js/runtime-main.4f6f7c4d.js",
-    "runtime-main.js.map": "/kedr-charts/static/js/runtime-main.4f6f7c4d.js.map",
-    "static/js/2.411a3bb6.chunk.js": "/kedr-charts/static/js/2.411a3bb6.chunk.js",
-    "static/js/2.411a3bb6.chunk.js.map": "/kedr-charts/static/js/2.411a3bb6.chunk.js.map",
-    "static/js/3.3482caf8.chunk.js": "/kedr-charts/static/js/3.3482caf8.chunk.js",
-    "static/js/3.3482caf8.chunk.js.map": "/kedr-charts/static/js/3.3482caf8.chunk.js.map",
+    "main.css": "/kedr-charts/static/css/main.430b1815.chunk.css",
+    "main.js": "/kedr-charts/static/js/main.8ecd9894.chunk.js",
+    "main.js.map": "/kedr-charts/static/js/main.8ecd9894.chunk.js.map",
+    "runtime-main.js": "/kedr-charts/static/js/runtime-main.c11a985e.js",
+    "runtime-main.js.map": "/kedr-charts/static/js/runtime-main.c11a985e.js.map",
+    "static/css/2.d26d1254.chunk.css": "/kedr-charts/static/css/2.d26d1254.chunk.css",
+    "static/js/2.603aef05.chunk.js": "/kedr-charts/static/js/2.603aef05.chunk.js",
+    "static/js/2.603aef05.chunk.js.map": "/kedr-charts/static/js/2.603aef05.chunk.js.map",
+    "static/js/3.90ea8c2f.chunk.js": "/kedr-charts/static/js/3.90ea8c2f.chunk.js",
+    "static/js/3.90ea8c2f.chunk.js.map": "/kedr-charts/static/js/3.90ea8c2f.chunk.js.map",
     "index.html": "/kedr-charts/index.html",
-    "static/css/main.a617e044.chunk.css.map": "/kedr-charts/static/css/main.a617e044.chunk.css.map",
-    "static/js/2.411a3bb6.chunk.js.LICENSE.txt": "/kedr-charts/static/js/2.411a3bb6.chunk.js.LICENSE.txt"
+    "static/css/2.d26d1254.chunk.css.map": "/kedr-charts/static/css/2.d26d1254.chunk.css.map",
+    "static/css/main.430b1815.chunk.css.map": "/kedr-charts/static/css/main.430b1815.chunk.css.map",
+    "static/js/2.603aef05.chunk.js.LICENSE.txt": "/kedr-charts/static/js/2.603aef05.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.4f6f7c4d.js",
-    "static/js/2.411a3bb6.chunk.js",
-    "static/css/main.a617e044.chunk.css",
-    "static/js/main.2422818d.chunk.js"
+    "static/js/runtime-main.c11a985e.js",
+    "static/css/2.d26d1254.chunk.css",
+    "static/js/2.603aef05.chunk.js",
+    "static/css/main.430b1815.chunk.css",
+    "static/js/main.8ecd9894.chunk.js"
   ]
 }
