@@ -1,0 +1,29 @@
+.graph-row {
+  display: table-row;
+  position: relative;
+  // font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 14px;
+
+  &__name,
+  &__stats {
+    display: table-cell;
+    text-align: right;
+    padding-right: 8px;
+    vertical-align: middle;
+    padding-bottom: 8px;
+    white-space: nowrap;
+  }
+
+  &__bar-container {
+    display: table-cell;
+    width: 100%;
+  }
+
+  &__bar {
+    height: 14px;
+    border-radius: 3px;
+  }
+}

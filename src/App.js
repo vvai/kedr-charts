@@ -1,38 +1,49 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import { Layout, Divider } from 'antd'
 import {
-  // selectCode,
-  fetchCartsData,
+  selectFilters,
+  selectRawGraphData,
+  setData,
+  // fetchCartsData,
 } from './features/charts/chartsSlice'
-import { BasicChart } from './components/basicChart'
-import './App.css'
+import { GraphSettings, MainGraph } from './components'
+import './App.scss'
+import mockData from './data.json'
+
+const { Content } = Layout
 
 function App() {
-  const all = useSelector((state) => state)
-  console.log('all ', all)
   const dispatch = useDispatch()
-  const [data] = useState([
-    { genre: 'Sports', sold: 275 },
-    { genre: 'Strategy', sold: 115 },
-    { genre: 'Action', sold: 120 },
-    { genre: 'Shooter', sold: 350 },
-    { genre: 'Other', sold: 150 },
-  ])
+  const filters = useSelector(selectFilters)
+  const rawData = useSelector(selectRawGraphData)
+  // const [data] = useState([
+  //   { genre: 'Sports', sold: 275 },
+  //   { genre: 'Strategy', sold: 115 },
+  //   { genre: 'Action', sold: 120 },
+  //   { genre: 'Shooter', sold: 350 },
+  //   { genre: 'Other', sold: 150 },
+  // ])
 
   useEffect(() => {
-    dispatch(fetchCartsData())
+    dispatch(setData(mockData))
+    // dispatch(fetchCartsData())
   }, [dispatch])
 
   return (
     <div className="App">
-      <header className="App-header">
-        <div className="charts">
-          {/* <div  onClick={() => dispatch(increment())}>test {count}</div> */}
-          <div id="chart"></div>
-        </div>
-        <BasicChart data={data} />
-        <p>Sample chart</p>
-      </header>
+      <Content>
+        <GraphSettings filters={filters} />
+        <Divider />
+        <MainGraph filters={filters} data={rawData} />
+        {/* <header className="App-header">
+          <div className="charts">
+            <div id="chart"></div>
+          </div>
+          <BasicChart data={data} />
+          <p>Sample chart</p>
+        </header> */}
+      </Content>
     </div>
   )
 }
