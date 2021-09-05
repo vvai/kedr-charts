@@ -27,12 +27,13 @@ export const TasksGraph = ({ data, filters }) => {
       name: question,
       total: d.total,
       right: d.right,
+      description: `${d.right ? Math.floor((d.right * 100) / d.total) : 0}%`,
       persent: d.right ? Math.floor((d.right * 100) / d.total) : 0,
     }
   })
   if (filters.sort_by === 'complexity') {
     preparedData.sort(
-      (a, b) => Number.parseInt(b.persent) - Number.parseInt(a.persent)
+      (a, b) => Number.parseInt(a.persent) - Number.parseInt(b.persent)
     )
   } else {
     preparedData.sort((a, b) => a.name - b.name)

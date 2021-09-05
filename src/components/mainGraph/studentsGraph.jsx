@@ -2,6 +2,14 @@ import React from 'react'
 import { GraphRow } from './graphRow'
 
 export const StudentsGraph = ({ data, filters }) => {
+  const questions = data
+    .flatMap((student) => student.answers)
+    .filter((elem) => {
+      const question = Number.parseInt(elem.questionId)
+      return question <= filters.max && question >= filters.min
+    })
+    .map((el) => el.questionId)
+  const total = new Set(questions).size
   let preparedData = data.map((student) => {
     const result = {
       name: `${student.first_name} ${student.last_name || ''}`,
@@ -11,11 +19,12 @@ export const StudentsGraph = ({ data, filters }) => {
       const question = Number.parseInt(answer.questionId)
       return question <= filters.max && question >= filters.min
     })
-    result.total = answers.length
+    result.total = total
     result.right = answers.filter((a) => a.answer?.isRight).length
     result.persent = result.right
       ? Math.floor((result.right * 100) / result.total)
       : 0
+    result.description = `${result.right}/${result.total}`
     return result
   })
   // preparedData.sort((a, b) => b.right - a.right)

@@ -8,7 +8,7 @@ export const GraphRow = ({ data }) => {
     <div className="graph-row">
       <div className="graph-row__name">{data.name}</div>
       <div className="graph-row__stats" style={{ color }}>
-        {data.right}/{data.total}
+        {data.description}
       </div>
       <div className="graph-row__bar-container">
         <div
