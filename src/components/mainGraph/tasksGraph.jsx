@@ -1,7 +1,7 @@
 import React from 'react'
 import { GraphRow } from './graphRow'
 
-export const TasksGraph = ({ data, filters }) => {
+function prepareData(data, filters) {
   let graphData = {}
   data
     .flatMap((student) => student.answers)
@@ -38,6 +38,11 @@ export const TasksGraph = ({ data, filters }) => {
   } else {
     preparedData.sort((a, b) => a.name - b.name)
   }
+  return preparedData
+}
+
+export const TasksGraph = ({ data, filters }) => {
+  const preparedData = prepareData(data, filters)
   return (
     <div style={{ display: 'table', padding: '0 24px' }}>
       {preparedData.map((data) => (

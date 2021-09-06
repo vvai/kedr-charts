@@ -1,7 +1,7 @@
 import React from 'react'
 import { GraphRow } from './graphRow'
 
-export const StudentsGraph = ({ data, filters }) => {
+function prepareData(data, filters) {
   const questions = data
     .flatMap((student) => student.answers)
     .filter((elem) => {
@@ -27,8 +27,12 @@ export const StudentsGraph = ({ data, filters }) => {
     result.description = `${result.right}/${result.total}`
     return result
   })
-  // preparedData.sort((a, b) => b.right - a.right)
   preparedData.sort((a, b) => b.persent - a.persent)
+  return preparedData
+}
+
+export const StudentsGraph = ({ data, filters }) => {
+  const preparedData = prepareData(data, filters)
   return (
     <div style={{ display: 'table', padding: '0 24px' }}>
       {preparedData.map((data) => (
