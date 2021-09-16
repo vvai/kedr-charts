@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/kedr-charts/static/css/main.d35b239f.chunk.css",
-    "main.js": "/kedr-charts/static/js/main.c485adfa.chunk.js",
-    "main.js.map": "/kedr-charts/static/js/main.c485adfa.chunk.js.map",
+    "main.js": "/kedr-charts/static/js/main.08c994d7.chunk.js",
+    "main.js.map": "/kedr-charts/static/js/main.08c994d7.chunk.js.map",
     "runtime-main.js": "/kedr-charts/static/js/runtime-main.c11a985e.js",
     "runtime-main.js.map": "/kedr-charts/static/js/runtime-main.c11a985e.js.map",
     "static/css/2.d26d1254.chunk.css": "/kedr-charts/static/css/2.d26d1254.chunk.css",
@@ -20,6 +20,6 @@
     "static/css/2.d26d1254.chunk.css",
     "static/js/2.603aef05.chunk.js",
     "static/css/main.d35b239f.chunk.css",
-    "static/js/main.c485adfa.chunk.js"
+    "static/js/main.08c994d7.chunk.js"
   ]
 }
