@@ -4,12 +4,12 @@ import { Layout, Divider } from 'antd'
 import {
   selectFilters,
   selectRawGraphData,
-  setData,
-  // fetchCartsData,
+  // setData,
+  fetchChartsData,
 } from './features/charts/chartsSlice'
 import { GraphSettings, MainGraph } from './components'
 import './App.scss'
-import mockData from './data.json'
+// import mockData from './data/data.json'
 
 const { Content } = Layout
 
@@ -26,8 +26,8 @@ function App() {
   // ])
 
   useEffect(() => {
-    dispatch(setData(mockData))
-    // dispatch(fetchCartsData())
+    // dispatch(setData(mockData))
+    dispatch(fetchChartsData())
   }, [dispatch])
 
   return (
