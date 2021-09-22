@@ -1,16 +1,18 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { getChartsData } from '../../api/chartsApi'
+import homeworkData from '../../data/tasks_to_homeworks.json'
+import taskMetadata from '../../data/task_to_level_flat.json'
 
 const initialState = {
   code: '',
   status: 'idle',
   filters: {
+    homework: 'all',
     type: 'students', // students or tasks
-    min: 1,
-    max: 100,
-    sort_by: 'tasks', // tasks or complexity
   },
   rawData: [],
+  homeworks: homeworkData,
+  taskMetadata: taskMetadata,
 }
 
 // The function below is called a thunk and allows us to perform async logic. It
@@ -69,5 +71,7 @@ export const { setCode, setFilters, setData } = chartSlice.actions
 export const selectCode = (state) => state.charts.code
 export const selectFilters = (state) => state.charts.filters
 export const selectRawGraphData = (state) => state.charts.rawData
+export const selectHomeworks = (state) => state.charts.homeworks
+export const selectTaskMetadata = (state) => state.charts.taskMetadata
 
 export default chartSlice.reducer

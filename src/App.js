@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Layout, Divider } from 'antd'
 import {
   selectFilters,
   selectRawGraphData,
+  selectHomeworks,
+  selectTaskMetadata,
   // setData,
   fetchChartsData,
 } from './features/charts/chartsSlice'
@@ -17,6 +19,8 @@ function App() {
   const dispatch = useDispatch()
   const filters = useSelector(selectFilters)
   const rawData = useSelector(selectRawGraphData)
+  const homeworks = useSelector(selectHomeworks)
+  const taskMetadata = useSelector(selectTaskMetadata)
   // const [data] = useState([
   //   { genre: 'Sports', sold: 275 },
   //   { genre: 'Strategy', sold: 115 },
@@ -33,9 +37,14 @@ function App() {
   return (
     <div className="App">
       <Content>
-        <GraphSettings filters={filters} />
+        <GraphSettings filters={filters} homeworks={homeworks} />
         <Divider />
-        <MainGraph filters={filters} data={rawData} />
+        <MainGraph
+          filters={filters}
+          data={rawData}
+          homeworks={homeworks}
+          taskMetadata={taskMetadata}
+        />
         {/* <header className="App-header">
           <div className="charts">
             <div id="chart"></div>

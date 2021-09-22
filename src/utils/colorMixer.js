@@ -1,7 +1,7 @@
 export const mixTwoColors = (
   weight = 50,
-  colorOne = '00B65E',
-  colorTwo = 'FB4242'
+  colorOne = '05AB47',
+  colorTwo = '2FA8DD'
 ) => {
   function d2h(d) {
     return d.toString(16)
