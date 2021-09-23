@@ -1,13 +1,14 @@
 import React from 'react'
 import { GraphRow } from './graphRow'
 
-function prepareData(data, filters) {
+function prepareData(data, filters, homeworks, taskMetadata) {
+  const homework = homeworks.find((h) => h.homeworkNumber === filters.homework)
   let graphData = {}
   data
     .flatMap((student) => student.answers)
     .filter((elem) => {
       const question = Number.parseInt(elem.questionId)
-      return question <= filters.max && question >= filters.min
+      return !homework || homework.questionIdList.some((q) => q === question)
     })
     .forEach((elem) => {
       const question = graphData[elem.questionId]
@@ -21,32 +22,36 @@ function prepareData(data, filters) {
         }
       }
     })
-  const preparedData = Object.keys(graphData).map((question) => {
+  let preparedData = Object.keys(graphData).map((question) => {
     const d = graphData[question]
+    const name = taskMetadata[question] || question
     return {
-      name: question,
+      name: name.toUpperCase(),
       total: d.total,
       right: d.right,
-      description: `${d.right ? Math.floor((d.right * 100) / d.total) : 0}%`,
+      description: question,
       persent: d.right ? Math.floor((d.right * 100) / d.total) : 0,
     }
   })
-  if (filters.sort_by === 'complexity') {
-    preparedData.sort(
-      (a, b) => Number.parseInt(a.persent) - Number.parseInt(b.persent)
-    )
-  } else {
-    preparedData.sort((a, b) => a.name - b.name)
-  }
+  // add relative number in homework
+  preparedData.sort((a, b) => a.name - b.name)
+  preparedData = preparedData.map((row, index) => ({
+    ...row,
+    description: index + 1,
+  }))
+  preparedData.sort(
+    (a, b) => Number.parseInt(a.persent) - Number.parseInt(b.persent)
+  )
+
   return preparedData
 }
 
-export const TasksGraph = ({ data, filters }) => {
-  const preparedData = prepareData(data, filters)
+export const TasksGraph = ({ data, filters, homeworks, taskMetadata }) => {
+  const preparedData = prepareData(data, filters, homeworks, taskMetadata)
   return (
     <div style={{ display: 'table', padding: '0 24px' }}>
       {preparedData.map((data) => (
-        <GraphRow key={data.name} data={data} />
+        <GraphRow key={data.description} data={data} />
       ))}
     </div>
   )
