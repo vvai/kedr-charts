@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { getChartsData } from '../../api/chartsApi'
+import rawData from '../../data/data.json'
 import homeworkData from '../../data/tasks_to_homeworks.json'
 import taskMetadata from '../../data/task_to_level_flat.json'
 
@@ -10,7 +11,7 @@ const initialState = {
     homework: 'all',
     type: 'students', // students or tasks
   },
-  rawData: [],
+  rawData,
   homeworks: homeworkData,
   taskMetadata: taskMetadata,
 }

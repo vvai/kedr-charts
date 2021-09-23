@@ -1,4 +1,15 @@
 .graph-settings {
+  width: 100%;
   text-align: left;
-  margin: 0 20px;
+  display: flex;
+  padding: 24px;
+
+  &__select {
+    max-width: 174px;
+    flex-grow: 1;
+
+    &:first-child {
+      margin-right: 12px;
+    }
+  }
 }
