@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { Layout, Divider } from 'antd'
+import { Layout } from 'antd'
 import {
   selectFilters,
   selectRawGraphData,
   selectHomeworks,
   selectTaskMetadata,
   // setData,
-  fetchChartsData,
+  // fetchChartsData,
 } from './features/charts/chartsSlice'
 import { GraphSettings, MainGraph } from './components'
 import './App.scss'
@@ -31,14 +31,13 @@ function App() {
 
   useEffect(() => {
     // dispatch(setData(mockData))
-    dispatch(fetchChartsData())
+    // dispatch(fetchChartsData())
   }, [dispatch])
 
   return (
     <div className="App">
       <Content>
         <GraphSettings filters={filters} homeworks={homeworks} />
-        <Divider />
         <MainGraph
           filters={filters}
           data={rawData}
@@ -46,9 +45,6 @@ function App() {
           taskMetadata={taskMetadata}
         />
         {/* <header className="App-header">
-          <div className="charts">
-            <div id="chart"></div>
-          </div>
           <BasicChart data={data} />
           <p>Sample chart</p>
         </header> */}
