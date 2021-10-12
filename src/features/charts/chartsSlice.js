@@ -1,8 +1,8 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { getChartsData } from '../../api/chartsApi'
 import rawData from '../../data/data.json'
-import homeworkData from '../../data/tasks_to_homeworks.json'
-import taskMetadata from '../../data/task_to_level_flat.json'
+import homeworkData from '../../data/tasks_to_homeworks2.json'
+import taskMetadata from '../../data/task_to_level_flat2.json'
 
 const initialState = {
   code: '',
