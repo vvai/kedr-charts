@@ -1,8 +1,8 @@
 {
   "files": {
-    "main.css": "/kedr-charts/static/css/main.354113e6.chunk.css",
-    "main.js": "/kedr-charts/static/js/main.16a56c56.chunk.js",
-    "main.js.map": "/kedr-charts/static/js/main.16a56c56.chunk.js.map",
+    "main.css": "/kedr-charts/static/css/main.e9c19be9.chunk.css",
+    "main.js": "/kedr-charts/static/js/main.2ef408e3.chunk.js",
+    "main.js.map": "/kedr-charts/static/js/main.2ef408e3.chunk.js.map",
     "runtime-main.js": "/kedr-charts/static/js/runtime-main.c6f6cb2a.js",
     "runtime-main.js.map": "/kedr-charts/static/js/runtime-main.c6f6cb2a.js.map",
     "static/css/2.d26d1254.chunk.css": "/kedr-charts/static/css/2.d26d1254.chunk.css",
@@ -12,14 +12,14 @@
     "static/js/3.2e353380.chunk.js.map": "/kedr-charts/static/js/3.2e353380.chunk.js.map",
     "index.html": "/kedr-charts/index.html",
     "static/css/2.d26d1254.chunk.css.map": "/kedr-charts/static/css/2.d26d1254.chunk.css.map",
-    "static/css/main.354113e6.chunk.css.map": "/kedr-charts/static/css/main.354113e6.chunk.css.map",
+    "static/css/main.e9c19be9.chunk.css.map": "/kedr-charts/static/css/main.e9c19be9.chunk.css.map",
     "static/js/2.786ad6f8.chunk.js.LICENSE.txt": "/kedr-charts/static/js/2.786ad6f8.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.c6f6cb2a.js",
     "static/css/2.d26d1254.chunk.css",
     "static/js/2.786ad6f8.chunk.js",
-    "static/css/main.354113e6.chunk.css",
-    "static/js/main.16a56c56.chunk.js"
+    "static/css/main.e9c19be9.chunk.css",
+    "static/js/main.2ef408e3.chunk.js"
   ]
 }
