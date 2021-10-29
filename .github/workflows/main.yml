@@ -1,15 +1,8 @@
-# This is a basic workflow to help you get started with Actions
-
 name: CI
 
-# Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the main branch
   push:
     branches: [ main ]
-
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch: 
 
 jobs:
   build:
@@ -22,7 +15,6 @@ jobs:
         env:
           cache-name: cache-node-modules
         with:
-          # npm cache files are stored in `~/.npm` on Linux/macOS
           path: ~/.npm
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
@@ -37,11 +29,10 @@ jobs:
         run: npm run build
         env:
          CI: false
-        
-      - name: Deploy Firebase Hosting
-        uses: danielmillan/pipelines-firebase-hosting@1.0.8
+
+      - name: Deploy to Firebase Hosting
+        uses: joinflux/firebase-action@master
         with:
-          firebase-token: "${{ secrets.FIREBASE_SERVICE_ACCOUNT }}"
-          resources-name: "kedr-stats"
-          project-name: "kedrbots-5fee0"
-          target-name: "stats"
+          args: deploy --only hosting
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
