@@ -2,7 +2,7 @@
   "name": "kedr-charts",
   "version": "0.2.0",
   "private": true,
-  "homepage": "https://vvai.github.io/kedr-charts",
+  "homepage": "",
   "dependencies": {
     "@antv/g2": "^4.1.25",
     "@reduxjs/toolkit": "^1.6.1",

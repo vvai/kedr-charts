@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "kedrbots-5fee0"
+  },
+  "targets": {
+    "kedrbots-5fee0": {
+      "hosting": {
+        "stats": [
+          "kedr-stats"
+        ]
+      }
+    }
+  }
+}
