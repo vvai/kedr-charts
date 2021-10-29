@@ -35,6 +35,8 @@ jobs:
 
       - name: Build App
         run: npm run build
+        env:
+         CI: false
         
       - name: Deploy Firebase Hosting
         uses: danielmillan/pipelines-firebase-hosting@1.0.8
