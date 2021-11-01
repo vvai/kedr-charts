@@ -7,7 +7,7 @@ import {
   selectHomeworks,
   selectTaskMetadata,
   // setData,
-  // fetchChartsData,
+  fetchChartsData,
 } from './features/charts/chartsSlice'
 import { GraphSettings, MainGraph } from './components'
 import './App.scss'
@@ -31,7 +31,7 @@ function App() {
 
   useEffect(() => {
     // dispatch(setData(mockData))
-    // dispatch(fetchChartsData())
+    dispatch(fetchChartsData())
   }, [dispatch])
 
   return (

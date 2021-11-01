@@ -3,8 +3,10 @@ import { getChartsData } from '../../api/chartsApi'
 import rawData from '../../data/data.json'
 import homeworkData from '../../data/tasks_to_homeworks2.json'
 import taskMetadata from '../../data/task_to_level_flat2.json'
+import { getUsersStats } from '../../api/firebase'
 
 const initialState = {
+  // firebase,
   code: '',
   status: 'idle',
   filters: {
@@ -16,6 +18,7 @@ const initialState = {
   taskMetadata: taskMetadata,
 }
 
+// console.log('store ', initialState)
 // The function below is called a thunk and allows us to perform async logic. It
 // can be dispatched like a regular action: `dispatch(fetchCartsData(10))`. This
 // will call the thunk with the `dispatch` function as the first argument. Async
@@ -24,9 +27,10 @@ const initialState = {
 export const fetchChartsData = createAsyncThunk(
   'charts/fetchData',
   async (amount) => {
-    const response = await getChartsData(amount)
+    // const response = await getChartsData(amount)
+    const result = await getUsersStats()
     // The value we return becomes the `fulfilled` action payload
-    return response.data
+    return result
   }
 )
 
