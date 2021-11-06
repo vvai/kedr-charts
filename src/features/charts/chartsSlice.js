@@ -1,9 +1,20 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { getChartsData } from '../../api/chartsApi'
 import rawData from '../../data/data.json'
-import homeworkData from '../../data/tasks_to_homeworks2.json'
-import taskMetadata from '../../data/task_to_level_flat2.json'
 import { getUsersStats } from '../../api/firebase'
+import homeworkData from '../../data/tasks_to_homeworks_nov.json'
+import taskMetadata from '../../data/task_to_level_flat_nov.json'
+
+/* convert to task_to_level_flat
+const pData = data.flatMap(el => {
+  return el.questionIdList.map(q => ({[q]: el.level}))
+})
+let reardyData = {}
+undefined
+pData.forEach(d => {
+  reardyData[Object.keys(d)[0]] = Object.values(d)[0]
+}) 
+*/
 
 const initialState = {
   // firebase,
