@@ -61,7 +61,7 @@ export const getUsersStats = async () => {
     })
 
     const answers = collection(db, 'rus_nov_answers')
-    const qAnswers = query(answers, limit(10))
+    const qAnswers = query(answers, limit(1300))
     const answersSnapshot = await getDocs(qAnswers)
     answersSnapshot.forEach((doc) => {
       const [userId, questionId] = doc.id.split('_')
@@ -78,12 +78,18 @@ export const getUsersStats = async () => {
       }
       // result.push({ id: doc.id, ...doc.data() })
     })
-    const unsubscribe = onSnapshot(query(answers), (snapshot) => {
-      snapshot.docChanges().forEach((change) => {
-        console.log('doc change!!! ', change.type, change.doc.data())
-      })
-    })
-    console.log('docs ', result)
+    // const unsubscribe = onSnapshot(query(answers), (snapshot) => {
+    //   snapshot.docChanges().forEach((change) => {
+    //     console.log(
+    //       'doc change!!! ',
+    //       change.type,
+    //       change.doc.id,
+    //       change.doc.data()
+    //     )
+    //     const [userId, questionId] = change.doc.id.split('_')
+    //   })
+    // })
+    // console.log('docs ', result)
     return Object.values(result)
   } catch (e) {
     console.error('error ', e)
