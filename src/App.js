@@ -8,6 +8,9 @@ import {
   selectTaskMetadata,
   // setData,
   fetchChartsData,
+  selectFireInstance,
+  subscribeUpdates,
+  unsubscribeUpdates,
 } from './features/charts/chartsSlice'
 import { GraphSettings, MainGraph } from './components'
 import './App.scss'
@@ -21,17 +24,15 @@ function App() {
   const rawData = useSelector(selectRawGraphData)
   const homeworks = useSelector(selectHomeworks)
   const taskMetadata = useSelector(selectTaskMetadata)
-  // const [data] = useState([
-  //   { genre: 'Sports', sold: 275 },
-  //   { genre: 'Strategy', sold: 115 },
-  //   { genre: 'Action', sold: 120 },
-  //   { genre: 'Shooter', sold: 350 },
-  //   { genre: 'Other', sold: 150 },
-  // ])
+  const fireInstance = useSelector(selectFireInstance)
 
-  useEffect(() => {
-    // dispatch(setData(mockData))
-    dispatch(fetchChartsData())
+  useEffect(async () => {
+    await fireInstance.signIn()
+    await dispatch(fetchChartsData())
+    await dispatch(subscribeUpdates())
+    return () => {
+      dispatch(unsubscribeUpdates())
+    }
   }, [dispatch])
 
   return (

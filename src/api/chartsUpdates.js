@@ -9,12 +9,8 @@ import {
   onSnapshot,
 } from 'firebase/firestore'
 import { signInAnonymously } from 'firebase/auth'
-import { updateRealTimeData } from '../features/charts/chartsSlice'
+// import { updateRealTimeData } from '../features/charts/chartsSlice'
 import db, { auth } from './firebase'
-
-const signIn = async () => {
-  return await signInAnonymously(auth)
-}
 
 // export const getUsersStats = async () => {
 //   try {
@@ -64,13 +60,13 @@ const signIn = async () => {
 //     return null
 //   }
 // }
-let unsubscribe
-let instance
+let unsubscribe, onUpdateCallback
 
-const initialize = async () => {
-  console.log('initialize!1!')
-  await signIn()
+const initialize = () => {
   return {
+    signIn: async () => {
+      return await signInAnonymously(auth)
+    },
     getUsersStats: async () => {
       try {
         const result = {}
@@ -82,7 +78,7 @@ const initialize = async () => {
         })
 
         const answers = collection(db, 'rus_nov_answers')
-        const qAnswers = query(answers)
+        const qAnswers = query(answers, limit(30))
         const answersSnapshot = await getDocs(qAnswers)
         answersSnapshot.forEach((doc) => {
           const [userId, questionId] = doc.id.split('_')
@@ -99,8 +95,6 @@ const initialize = async () => {
           }
           // result.push({ id: doc.id, ...doc.data() })
         })
-
-        console.log('docs ', result)
         return Object.values(result)
       } catch (e) {
         console.error('error ', e)
@@ -111,18 +105,19 @@ const initialize = async () => {
       const answers = collection(db, 'rus_nov_answers')
       unsubscribe = onSnapshot(query(answers), (snapshot) => {
         snapshot.docChanges().forEach((change) => {
-          console.log(
-            'doc change!!! ',
-            change.type,
-            change.doc.id,
-            change.doc.data()
-          )
-          const [userId, questionId] = change.doc.id.split('_')
-          updateRealTimeData(change.doc)
+          // const [userId, questionId] = change.doc.id.split('_')
+          if (onUpdateCallback) {
+            onUpdateCallback(change.doc.id, change.doc.data(), change.type)
+          }
         })
       })
     },
-    destroy: unsubscribe,
+    onUpdateCall: (callback) => {
+      onUpdateCallback = callback
+    },
+    unsubscribe: () => {
+      unsubscribe && unsubscribe()
+    },
   }
 }
 
