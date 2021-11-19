@@ -37,7 +37,7 @@ export const StudentsGraph = ({ data, filters, homeworks }) => {
   return (
     <div style={{ display: 'table', padding: '0 24px' }}>
       {preparedData.map((data, index) => (
-        <GraphRow key={data.code || data.name} index={index + 1} data={data} />
+        <GraphRow key={data.id} index={index + 1} data={data} />
       ))}
     </div>
   )
