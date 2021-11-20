@@ -15,7 +15,7 @@ let reardyData = {}
 undefined
 pData.forEach(d => {
   reardyData[Object.keys(d)[0]] = Object.values(d)[0]
-}) 
+})
 */
 const instance = initFirebaseApi()
 const initialState = {
@@ -56,6 +56,7 @@ export const subscribeUpdates = createAsyncThunk(
       const instance = getState().charts?.fireInstance
       instance.onUpdateCall((id, data, type) => {
         if (type === 'added') {
+          console.log('XXX: Update data', data);
           const [userId, questionId] = id?.split('_')
           dispatch(updateRealTimeData({ userId, questionId, data }))
         }
