@@ -1,8 +1,8 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { getChartsData } from '../../api/chartsApi'
 import rawData from '../../data/data.json'
-import homeworkData from '../../data/tasks_to_homeworks_nov.json'
-import taskMetadata from '../../data/task_to_level_flat_nov.json'
+import homeworkData from '../../data/tasks_to_homeworks_dec.json'
+import taskMetadata from '../../data/task_to_level_flat_dec.json'
 
 /* convert to task_to_level_flat
 const pData = data.flatMap(el => {
