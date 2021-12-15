@@ -56,7 +56,7 @@ export const subscribeUpdates = createAsyncThunk(
       const instance = getState().charts?.fireInstance
       instance.onUpdateCall((id, data, type) => {
         if (type === 'added') {
-          console.log('XXX: Update data', data);
+          console.log('XXX: Update data', data)
           const [userId, questionId] = id?.split('_')
           dispatch(updateRealTimeData({ userId, questionId, data }))
         }
