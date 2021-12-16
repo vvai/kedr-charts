@@ -29,7 +29,7 @@ function App() {
   useEffect(async () => {
     await fireInstance.signIn()
     await dispatch(fetchChartsData())
-    // await dispatch(subscribeUpdates())
+    await dispatch(subscribeUpdates())
     return () => {
       dispatch(unsubscribeUpdates())
     }

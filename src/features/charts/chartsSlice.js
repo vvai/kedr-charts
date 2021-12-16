@@ -1,10 +1,10 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice, createAction } from '@reduxjs/toolkit'
 import { getChartsData } from '../../api/chartsApi'
-import rawData from '../../data/data.json'
+// import rawData from '../../data/data.json'
 // import { getUsersStats } from '../../api/firebase'
 import initFirebaseApi from '../../api/chartsUpdates'
-import homeworkData from '../../data/tasks_to_homeworks_nov.json'
-import taskMetadata from '../../data/task_to_level_flat_nov.json'
+import homeworkData from '../../data/tasks_to_homeworks_dec.json'
+import taskMetadata from '../../data/task_to_level_flat_dec.json'
 import { debugErrorMap } from '@firebase/auth'
 
 /* convert to task_to_level_flat
@@ -26,7 +26,7 @@ const initialState = {
     homework: 'all',
     type: 'students', // students or tasks
   },
-  rawData,
+  rawData: [],
   homeworks: homeworkData,
   taskMetadata: taskMetadata,
   fireInstance: instance,
@@ -58,7 +58,9 @@ export const subscribeUpdates = createAsyncThunk(
         if (type === 'added') {
           console.log('XXX: Update data', data)
           const [userId, questionId] = id?.split('_')
-          dispatch(updateRealTimeData({ userId, questionId, data }))
+          dispatch(addAnswer({ userId, questionId, data }))
+        } else {
+          console.log('XXX: action:', type)
         }
       })
       return instance.subscribe()
@@ -87,6 +89,8 @@ export const updateRealTimeData = createAsyncThunk(
   }
 )
 
+const addAnswer = createAction('charts/addAnswer')
+
 export const chartSlice = createSlice({
   name: 'charts',
   initialState,
@@ -105,6 +109,26 @@ export const chartSlice = createSlice({
     },
     setFilters: (state, action) => {
       state.filters = action.payload
+    },
+    addAnswer: (state, action) => {
+      // console.log()
+      let newData = state.rawData.map((user) => {
+        if (user.id !== action.payload.userId) {
+          return user
+        } else {
+          return {
+            ...user,
+            answers: [
+              ...user.answers,
+              {
+                questionId: action.payload.questionId,
+                answer: action.payload.data,
+              },
+            ],
+          }
+        }
+      })
+      state.rawData = newData
     },
   },
   // The `extraReducers` field lets the slice handle actions defined elsewhere,
