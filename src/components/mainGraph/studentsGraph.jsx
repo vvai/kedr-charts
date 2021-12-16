@@ -15,6 +15,7 @@ function prepareData(data, filters, homeworks) {
     const result = {
       name: `${student.first_name} ${student.last_name || ''}`,
       code: student.code,
+      id: student.id,
     }
     const answers = student.answers.filter((answer) => {
       const question = Number.parseInt(answer.questionId)

@@ -26,14 +26,17 @@ function App() {
   const taskMetadata = useSelector(selectTaskMetadata)
   const fireInstance = useSelector(selectFireInstance)
 
-  useEffect(async () => {
-    await fireInstance.signIn()
-    await dispatch(fetchChartsData())
-    await dispatch(subscribeUpdates())
+  useEffect(() => {
+    async function initialize() {
+      await fireInstance.signIn()
+      await dispatch(fetchChartsData())
+      await dispatch(subscribeUpdates())
+    }
+    initialize()
     return () => {
       dispatch(unsubscribeUpdates())
     }
-  }, [dispatch])
+  }, [dispatch, fireInstance])
 
   return (
     <div className="App">

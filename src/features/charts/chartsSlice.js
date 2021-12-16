@@ -1,22 +1,11 @@
 import { createAsyncThunk, createSlice, createAction } from '@reduxjs/toolkit'
-import { getChartsData } from '../../api/chartsApi'
+// import { getChartsData } from '../../api/chartsApi'
 // import rawData from '../../data/data.json'
 // import { getUsersStats } from '../../api/firebase'
 import initFirebaseApi from '../../api/chartsUpdates'
 import homeworkData from '../../data/tasks_to_homeworks_dec.json'
 import taskMetadata from '../../data/task_to_level_flat_dec.json'
-import { debugErrorMap } from '@firebase/auth'
 
-/* convert to task_to_level_flat
-const pData = data.flatMap(el => {
-  return el.questionIdList.map(q => ({[q]: el.level}))
-})
-let reardyData = {}
-undefined
-pData.forEach(d => {
-  reardyData[Object.keys(d)[0]] = Object.values(d)[0]
-})
-*/
 const instance = initFirebaseApi()
 const initialState = {
   // firebase,
@@ -111,20 +100,24 @@ export const chartSlice = createSlice({
       state.filters = action.payload
     },
     addAnswer: (state, action) => {
-      // console.log()
       let newData = state.rawData.map((user) => {
         if (user.id !== action.payload.userId) {
           return user
         } else {
+          const isAlreadyAdded = user.answers.some(
+            (a) => a.questionId === action.payload.questionId
+          )
           return {
             ...user,
-            answers: [
-              ...user.answers,
-              {
-                questionId: action.payload.questionId,
-                answer: action.payload.data,
-              },
-            ],
+            answers: isAlreadyAdded
+              ? user.answers
+              : [
+                  ...user.answers,
+                  {
+                    questionId: action.payload.questionId,
+                    answer: action.payload.data,
+                  },
+                ],
           }
         }
       })

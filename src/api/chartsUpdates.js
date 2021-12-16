@@ -1,15 +1,13 @@
 import {
-  getFirestore,
   collection,
   getDocs,
   query,
   where,
   orderBy,
-  limit,
+  // limit,
   onSnapshot,
 } from 'firebase/firestore'
 import { signInAnonymously } from 'firebase/auth'
-// import { updateRealTimeData } from '../features/charts/chartsSlice'
 import db, { auth } from './firebase'
 
 let unsubscribe, onUpdateCallback
@@ -44,7 +42,6 @@ const initialize = () => {
               },
             })
           }
-          // result.push({ id: doc.id, ...doc.data() })
         })
 
         return Object.values(result)
@@ -55,15 +52,13 @@ const initialize = () => {
     },
     subscribe: () => {
       const now = new Date()
-      const dateOffset = 1000 * 5
+      const dateOffset = 1000 * 60 // 60 sec overlap time.. just in case
       now.setTime(now.getTime() - dateOffset)
       // now.setMinutes(now.get)
       const answersRef = collection(db, 'rus_dec_answers')
       const answersQuery = query(answersRef, where('createdAt', '>=', now))
       unsubscribe = onSnapshot(answersQuery, (snapshot) => {
         snapshot.docChanges().forEach((change) => {
-          // const [userId, questionId] = change.doc.id.split('_')
-          // console.log('update ', change.doc.data())
           if (onUpdateCallback) {
             onUpdateCallback(change.doc.id, change.doc.data(), change.type)
           }
