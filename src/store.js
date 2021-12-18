@@ -5,4 +5,8 @@ export const store = configureStore({
   reducer: {
     charts: chartsReducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }),
 })

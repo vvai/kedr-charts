@@ -15,6 +15,7 @@ function prepareData(data, filters, homeworks) {
     const result = {
       name: `${student.first_name} ${student.last_name || ''}`,
       code: student.code,
+      id: student.id,
     }
     const answers = student.answers.filter((answer) => {
       const question = Number.parseInt(answer.questionId)
@@ -37,7 +38,7 @@ export const StudentsGraph = ({ data, filters, homeworks }) => {
   return (
     <div style={{ display: 'table', padding: '0 24px' }}>
       {preparedData.map((data, index) => (
-        <GraphRow key={data.code || data.name} index={index + 1} data={data} />
+        <GraphRow key={data.id} index={index + 1} data={data} />
       ))}
     </div>
   )

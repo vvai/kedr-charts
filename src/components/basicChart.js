@@ -13,6 +13,7 @@ export const BasicChart = ({ data }) => {
     chart.data(data)
     chart.interval().position('genre*sold')
     chart.render()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return <div ref={elementRef}></div>
