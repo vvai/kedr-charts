@@ -1,6 +1,7 @@
 import React from 'react'
 import { StudentsGraph } from './studentsGraph'
 import { TasksGraph } from './tasksGraph'
+import './mainGraph.scss'
 
 export const MainGraph = ({ data, filters, homeworks, taskMetadata }) => {
   if (filters?.type === 'students') {

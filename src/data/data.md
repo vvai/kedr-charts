@@ -7,7 +7,6 @@ const pData = data.flatMap((el) => {
   return el.questionIdList.map((q) => ({ [q]: el.level }))
 })
 let reardyData = {}
-undefined
 pData.forEach((d) => {
   reardyData[Object.keys(d)[0]] = Object.values(d)[0]
 })

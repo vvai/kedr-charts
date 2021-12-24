@@ -3,6 +3,7 @@ import { GraphRow } from './graphRow'
 
 function prepareData(data, filters, homeworks) {
   const homework = homeworks.find((h) => h.homeworkNumber === filters.homework)
+  const questionsNumber = homework ? homework.questionIdList.length : -1
   const questions = data
     .flatMap((student) => student.answers)
     .filter((elem) => {
@@ -27,6 +28,8 @@ function prepareData(data, filters, homeworks) {
       ? Math.floor((result.right * 100) / result.total)
       : 0
     result.description = `${result.persent}%`
+    result.isRelevant =
+      answers.length === questionsNumber || questionsNumber <= 0
     return result
   })
   preparedData.sort((a, b) => b.persent - a.persent)
@@ -35,11 +38,26 @@ function prepareData(data, filters, homeworks) {
 
 export const StudentsGraph = ({ data, filters, homeworks }) => {
   const preparedData = prepareData(data, filters, homeworks)
+  const relevant = preparedData.filter((e) => e.isRelevant)
+  const notRelevantYet = preparedData.filter((e) => !e.isRelevant)
   return (
-    <div style={{ display: 'table', padding: '0 24px' }}>
-      {preparedData.map((data, index) => (
-        <GraphRow key={data.id} index={index + 1} data={data} />
-      ))}
-    </div>
+    <>
+      <div style={{ display: 'table', padding: '0 24px' }}>
+        {relevant.map((data, index) => (
+          <GraphRow key={data.id} index={index + 1} data={data} />
+        ))}
+      </div>
+      {notRelevantYet.length ? (
+        <div className="not-relevant-students">
+          <span>Не сдали ({notRelevantYet.length}):</span>
+          <br />
+          {notRelevantYet.map((data) => (
+            <span key={data.id} className="not-relevant-students__item">
+              {data.name?.trim()}
+            </span>
+          ))}
+        </div>
+      ) : null}
+    </>
   )
 }
