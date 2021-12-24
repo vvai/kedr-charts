@@ -1,23 +1,26 @@
 import { createAsyncThunk, createSlice, createAction } from '@reduxjs/toolkit'
-// import { getChartsData } from '../../api/chartsApi'
-// import rawData from '../../data/data.json'
-// import { getUsersStats } from '../../api/firebase'
 import initFirebaseApi from '../../api/chartsUpdates'
-import homeworkData from '../../data/tasks_to_homeworks_dec.json'
-import taskMetadata from '../../data/task_to_level_flat_dec.json'
+import { getHomeworkData, getTaskMetadata, currentMonth } from '../../data'
 
 const instance = initFirebaseApi()
 const initialState = {
-  // firebase,
   code: '',
   status: 'idle',
+  currentMonth,
   filters: {
+    month: 'dec',
     homework: 'all',
     type: 'students', // students or tasks
   },
   rawData: [],
-  homeworks: homeworkData,
-  taskMetadata: taskMetadata,
+  months: [
+    // { value: 'sept', label: 'Сентябрь' },
+    { value: 'oct', label: 'Октябрь' },
+    { value: 'nov', label: 'Ноябрь' },
+    { value: 'dec', label: 'Декабрь' },
+  ],
+  homeworks: getHomeworkData(currentMonth),
+  taskMetadata: getTaskMetadata(currentMonth),
   fireInstance: instance,
 }
 
@@ -28,13 +31,21 @@ const initialState = {
 // typically used to make async requests.
 export const fetchChartsData = createAsyncThunk(
   'charts/fetchData',
-  async (amount, { getState }) => {
+  async (_, { getState }) => {
     const state = getState()
     const instance = state.charts?.fireInstance
     // const response = await getChartsData(amount)
-    const result = await instance.getUsersStats()
+    const result = await instance.getUsersStats(state.charts.filters.month)
     // The value we return becomes the `fulfilled` action payload
     return result
+  }
+)
+
+export const changeStatsMonth = createAsyncThunk(
+  'charts/changeMonth',
+  (month, { dispatch }) => {
+    dispatch(updateMonthFilter(month))
+    dispatch(fetchChartsData())
   }
 )
 
@@ -45,14 +56,13 @@ export const subscribeUpdates = createAsyncThunk(
       const instance = getState().charts?.fireInstance
       instance.onUpdateCall((id, data, type) => {
         if (type === 'added') {
-          console.log('XXX: Update data', data)
           const [userId, questionId] = id?.split('_')
-          dispatch(addAnswer({ userId, questionId, data }))
+          dispatch(updateAnswersLive({ userId, questionId, data }))
         } else {
           console.log('XXX: action:', type)
         }
       })
-      return instance.subscribe()
+      return instance.subscribe(getState().charts.currentMonth)
     } catch (e) {
       console.log(e)
     }
@@ -78,7 +88,8 @@ export const updateRealTimeData = createAsyncThunk(
   }
 )
 
-const addAnswer = createAction('charts/addAnswer')
+const updateAnswersLive = createAction('charts/updateAnswersLive')
+const updateMonthFilter = createAction('charts/updateMonthFilter')
 
 export const chartSlice = createSlice({
   name: 'charts',
@@ -99,29 +110,46 @@ export const chartSlice = createSlice({
     setFilters: (state, action) => {
       state.filters = action.payload
     },
-    addAnswer: (state, action) => {
-      let newData = state.rawData.map((user) => {
-        if (user.id !== action.payload.userId) {
-          return user
-        } else {
-          const isAlreadyAdded = user.answers.some(
-            (a) => a.questionId === action.payload.questionId
-          )
-          return {
-            ...user,
-            answers: isAlreadyAdded
-              ? user.answers
-              : [
-                  ...user.answers,
-                  {
-                    questionId: action.payload.questionId,
-                    answer: action.payload.data,
-                  },
-                ],
+    updateMonthFilter: (state, action) => {
+      const newMonth = action.payload
+      state.filters.month = newMonth
+      state.homeworks = getHomeworkData(newMonth)
+      state.taskMetadata = getTaskMetadata(newMonth)
+    },
+    updateAnswersLive: (state, action) => {
+      const isCurrentMonthSelected = state.currentMonth === state.filters.month
+      if (isCurrentMonthSelected) {
+        let newData = state.rawData.map((user) => {
+          if (user.id !== action.payload.userId) {
+            return user
+          } else {
+            const isAlreadyAdded = user.answers.some(
+              (a) => a.questionId === action.payload.questionId
+            )
+            console.log(
+              'XXX: add answer',
+              `${user.first_name} ${user.last_name}`,
+              action.payload.data,
+              isAlreadyAdded
+            )
+            return {
+              ...user,
+              answers: isAlreadyAdded
+                ? user.answers
+                : [
+                    ...user.answers,
+                    {
+                      questionId: action.payload.questionId,
+                      answer: action.payload.data,
+                    },
+                  ],
+            }
           }
-        }
-      })
-      state.rawData = newData
+        })
+        state.rawData = newData
+      } else {
+        console.log(`skip update: month is ${state.filters.month}`)
+      }
     },
   },
   // The `extraReducers` field lets the slice handle actions defined elsewhere,
@@ -169,5 +197,7 @@ export const selectRawGraphData = (state) => state.charts.rawData
 export const selectHomeworks = (state) => state.charts.homeworks
 export const selectTaskMetadata = (state) => state.charts.taskMetadata
 export const selectFireInstance = (state) => state.charts.fireInstance
+export const selectMonths = (state) => state.charts.months
+export const selectChartLoadingStatus = (state) => state.charts.status
 
 export default chartSlice.reducer

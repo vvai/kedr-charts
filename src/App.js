@@ -1,16 +1,18 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { Layout } from 'antd'
+import { Layout, Spin, Space } from 'antd'
 import {
   selectFilters,
   selectRawGraphData,
   selectHomeworks,
   selectTaskMetadata,
+  selectMonths,
   // setData,
   fetchChartsData,
   selectFireInstance,
   subscribeUpdates,
   unsubscribeUpdates,
+  selectChartLoadingStatus,
 } from './features/charts/chartsSlice'
 import { GraphSettings, MainGraph } from './components'
 import './App.scss'
@@ -25,6 +27,8 @@ function App() {
   const homeworks = useSelector(selectHomeworks)
   const taskMetadata = useSelector(selectTaskMetadata)
   const fireInstance = useSelector(selectFireInstance)
+  const months = useSelector(selectMonths)
+  const loadingStatus = useSelector(selectChartLoadingStatus)
 
   useEffect(() => {
     async function initialize() {
@@ -41,13 +45,23 @@ function App() {
   return (
     <div className="App">
       <Content>
-        <GraphSettings filters={filters} homeworks={homeworks} />
-        <MainGraph
+        <GraphSettings
           filters={filters}
-          data={rawData}
           homeworks={homeworks}
-          taskMetadata={taskMetadata}
+          months={months}
         />
+        {loadingStatus !== 'loading' ? (
+          <MainGraph
+            filters={filters}
+            data={rawData}
+            homeworks={homeworks}
+            taskMetadata={taskMetadata}
+          />
+        ) : (
+          <Space size="large">
+            <Spin tip="Loading..." size="large" />
+          </Space>
+        )}
         {/* <header className="App-header">
           <BasicChart data={data} />
           <p>Sample chart</p>

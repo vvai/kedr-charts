@@ -1,16 +1,28 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
 import { Select } from 'antd'
-import { setFilters } from '../../features/charts/chartsSlice'
+import { setFilters, changeStatsMonth } from '../../features/charts/chartsSlice'
 import './graphSettings.scss'
 
 const { Option } = Select
 
-export const GraphSettings = ({ filters, homeworks }) => {
+export const GraphSettings = ({ filters, homeworks, months }) => {
   const dispatch = useDispatch()
 
   return (
     <div className="graph-settings">
+      <Select
+        className="graph-settings__select"
+        key="month"
+        value={filters.month}
+        onChange={(month) => dispatch(changeStatsMonth(month))}
+      >
+        {months.map((m) => (
+          <Option key={m.value} value={m.value}>
+            {m.label}
+          </Option>
+        ))}
+      </Select>
       <Select
         className="graph-settings__select"
         key="homework"

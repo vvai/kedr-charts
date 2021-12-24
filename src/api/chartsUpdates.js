@@ -17,17 +17,20 @@ const initialize = () => {
     signIn: async () => {
       return await signInAnonymously(auth)
     },
-    getUsersStats: async () => {
+    getUsersStats: async (month) => {
       try {
+        if (!month) {
+          return {}
+        }
         const result = {}
         const users = collection(db, 'users')
-        const qUsers = query(users, orderBy('rus_dec'))
+        const qUsers = query(users, orderBy(`rus_${month}`))
         const usersSnapshot = await getDocs(qUsers)
         usersSnapshot.forEach((doc) => {
           result[doc.id] = { ...doc.data(), id: doc.id, answers: [] }
         })
 
-        const answers = collection(db, 'rus_dec_answers')
+        const answers = collection(db, `rus_${month}_answers`)
         const qAnswers = query(answers)
         // const qAnswers = query(answers, limit(30))
         const answersSnapshot = await getDocs(qAnswers)
@@ -43,19 +46,21 @@ const initialize = () => {
             })
           }
         })
-
         return Object.values(result)
       } catch (e) {
         console.error('error ', e)
         return null
       }
     },
-    subscribe: () => {
+    subscribe: (month) => {
+      if (!month) {
+        return
+      }
       const now = new Date()
       const dateOffset = 1000 * 60 // 60 sec overlap time.. just in case
       now.setTime(now.getTime() - dateOffset)
       // now.setMinutes(now.get)
-      const answersRef = collection(db, 'rus_dec_answers')
+      const answersRef = collection(db, `rus_${month}_answers`)
       const answersQuery = query(answersRef, where('createdAt', '>=', now))
       unsubscribe = onSnapshot(answersQuery, (snapshot) => {
         snapshot.docChanges().forEach((change) => {
