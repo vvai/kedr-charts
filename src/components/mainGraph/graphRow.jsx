@@ -4,6 +4,7 @@ import './graphRow.scss'
 
 export const GraphRow = ({ data, index }) => {
   const color = mixTwoColors(data.persent)
+  const showIndex = index || data.description
   return (
     <div className="graph-row">
       <div className="graph-row__bar-container">
@@ -19,7 +20,9 @@ export const GraphRow = ({ data, index }) => {
           }}
         />
       </div>
-      <div className="graph-row__index">{`${index || data.description}.`}</div>
+      <div className="graph-row__index">
+        {showIndex ? `${index || data.description}.` : ''}
+      </div>
       <div className="graph-row__name">{data.name}</div>
     </div>
   )

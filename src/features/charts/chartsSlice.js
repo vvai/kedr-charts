@@ -11,6 +11,7 @@ const initialState = {
     month: 'dec',
     homework: 'all',
     type: 'students', // students or tasks
+    homeworkGraphType: 'average',
   },
   rawData: [],
   months: [

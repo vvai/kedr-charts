@@ -25,27 +25,44 @@ export const GraphSettings = ({ filters, homeworks, months }) => {
       </Select>
       <Select
         className="graph-settings__select"
-        key="homework"
-        value={filters.homework}
-        onChange={(homework) => dispatch(setFilters({ ...filters, homework }))}
-      >
-        {homeworks.map((h) => (
-          <Option
-            key={h.homeworkNumber}
-            value={h.homeworkNumber}
-          >{`Домашка ${h.homeworkNumber}`}</Option>
-        ))}
-        <Option value="all">Все задания</Option>
-      </Select>
-      <Select
-        className="graph-settings__select"
         key="type"
         value={filters.type}
         onChange={(type) => dispatch(setFilters({ ...filters, type }))}
       >
         <Option value="students">Ученики</Option>
         <Option value="tasks">Задания</Option>
+        <Option value="homeworks">Все домашки</Option>
       </Select>
+      {filters.type !== 'homeworks' ? (
+        <Select
+          className="graph-settings__select"
+          key="homework"
+          value={filters.homework}
+          onChange={(homework) =>
+            dispatch(setFilters({ ...filters, homework }))
+          }
+        >
+          {homeworks.map((h) => (
+            <Option
+              key={h.homeworkNumber}
+              value={h.homeworkNumber}
+            >{`Домашка ${h.homeworkNumber}`}</Option>
+          ))}
+          <Option value="all">Все задания</Option>
+        </Select>
+      ) : (
+        <Select
+          className="graph-settings__select"
+          key="homeworkType"
+          value={filters.homeworkGraphType}
+          onChange={(type) =>
+            dispatch(setFilters({ ...filters, homeworkGraphType: type }))
+          }
+        >
+          <Option value="average">Правильных ответов в среднем</Option>
+          <Option value="progress">Прогресс</Option>
+        </Select>
+      )}
     </div>
   )
 }
