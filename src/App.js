@@ -56,6 +56,7 @@ function App() {
             data={rawData}
             homeworks={homeworks}
             taskMetadata={taskMetadata}
+            months={months}
           />
         ) : (
           <Space size="large">

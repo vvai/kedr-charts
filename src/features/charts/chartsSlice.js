@@ -8,9 +8,10 @@ const initialState = {
   status: 'idle',
   currentMonth,
   filters: {
-    month: 'dec',
+    month: currentMonth,
     homework: 'all',
     type: 'students', // students or tasks
+    homeworkGraphType: 'average',
   },
   rawData: [],
   months: [
@@ -18,6 +19,7 @@ const initialState = {
     { value: 'oct', label: 'Октябрь' },
     { value: 'nov', label: 'Ноябрь' },
     { value: 'dec', label: 'Декабрь' },
+    { value: 'jan', label: 'Январь' },
   ],
   homeworks: getHomeworkData(currentMonth),
   taskMetadata: getTaskMetadata(currentMonth),
