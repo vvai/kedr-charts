@@ -6,8 +6,8 @@
 const pData = data.flatMap((el) => {
   return el.questionIdList.map((q) => ({ [q]: el.level }))
 })
-let reardyData = {}
+let readyData = {}
 pData.forEach((d) => {
-  reardyData[Object.keys(d)[0]] = Object.values(d)[0]
+  readyData[Object.keys(d)[0]] = Object.values(d)[0]
 })
 ```

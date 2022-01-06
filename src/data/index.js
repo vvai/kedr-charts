@@ -10,12 +10,16 @@ import novTaskMetadata from './task_to_level_flat_nov.json'
 // dec
 import decHomeworkData from './tasks_to_homeworks_dec.json'
 import decTaskMetadata from './task_to_level_flat_dec.json'
+// jan
+import janHomeworkData from './tasks_to_homeworks_jan.json'
+import janTaskMetadata from './task_to_level_flat_jan.json'
 
 export const homeworkData = {
   // sept: sepHomeworkData,
   oct: octHomeworkData,
   nov: novHomeworkData,
   dec: decHomeworkData,
+  jan: janHomeworkData,
 }
 
 export const taskMetadata = {
@@ -23,8 +27,9 @@ export const taskMetadata = {
   oct: octTaskMetadata,
   nov: novTaskMetadata,
   dec: decTaskMetadata,
+  jan: janTaskMetadata,
 }
 
 export const getHomeworkData = (month) => homeworkData[month]
 export const getTaskMetadata = (month) => taskMetadata[month]
-export const currentMonth = 'dec'
+export const currentMonth = 'jan'
