@@ -36,7 +36,6 @@ export const fetchChartsData = createAsyncThunk(
   async (_, { getState }) => {
     const state = getState()
     const instance = state.charts?.fireInstance
-    // const response = await getChartsData(amount)
     const result = await instance.getUsersStats(state.charts.filters.month)
     // The value we return becomes the `fulfilled` action payload
     return result

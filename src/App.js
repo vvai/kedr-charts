@@ -1,73 +1,49 @@
-import React, { useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { Layout, Spin, Space } from 'antd'
+import React from 'react'
 import {
-  selectFilters,
-  selectRawGraphData,
-  selectHomeworks,
-  selectTaskMetadata,
-  selectMonths,
-  // setData,
-  fetchChartsData,
-  selectFireInstance,
-  subscribeUpdates,
-  unsubscribeUpdates,
-  selectChartLoadingStatus,
-} from './features/charts/chartsSlice'
-import { GraphSettings, MainGraph } from './components'
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation,
+} from 'react-router-dom'
+import ChartsPage from './pages/ChartsPage'
+import UsersPage from './pages/UsersPage'
 import './App.scss'
-// import mockData from './data/data.json'
-
-const { Content } = Layout
 
 function App() {
-  const dispatch = useDispatch()
-  const filters = useSelector(selectFilters)
-  const rawData = useSelector(selectRawGraphData)
-  const homeworks = useSelector(selectHomeworks)
-  const taskMetadata = useSelector(selectTaskMetadata)
-  const fireInstance = useSelector(selectFireInstance)
-  const months = useSelector(selectMonths)
-  const loadingStatus = useSelector(selectChartLoadingStatus)
+  return (
+    <Router>
+      <div>
+        {/* <nav>
+          <ul>
+            <li>
+              <Link to="/">Charts</Link>
+            </li>
+            <li>
+              <Link to="/user">User</Link>
+            </li>
+          </ul>
+        </nav> */}
 
-  useEffect(() => {
-    async function initialize() {
-      await fireInstance.signIn()
-      await dispatch(fetchChartsData())
-      await dispatch(subscribeUpdates())
-    }
-    initialize()
-    return () => {
-      dispatch(unsubscribeUpdates())
-    }
-  }, [dispatch, fireInstance])
+        {/* A <Switch> looks through its children <Route>s and
+            renders the first one that matches the current URL. */}
+        <Routes>
+          <Route path="/users/:id" element={<UsersPage />} />
+          <Route path="/" element={<ChartsPage />} />
+          <Route path="*" element={<NoMatch />} />
+        </Routes>
+      </div>
+    </Router>
+  )
+}
+
+function NoMatch() {
+  let location = useLocation()
 
   return (
-    <div className="App">
-      <Content>
-        <GraphSettings
-          filters={filters}
-          homeworks={homeworks}
-          months={months}
-        />
-        {loadingStatus !== 'loading' ? (
-          <MainGraph
-            filters={filters}
-            data={rawData}
-            homeworks={homeworks}
-            taskMetadata={taskMetadata}
-            months={months}
-          />
-        ) : (
-          <Space size="large">
-            <Spin tip="Loading..." size="large" />
-          </Space>
-        )}
-        {/* <header className="App-header">
-          <BasicChart data={data} />
-          <p>Sample chart</p>
-        </header> */}
-      </Content>
+    <div>
+      <h3>
+        No match for <code>{location.pathname}</code>
+      </h3>
     </div>
   )
 }

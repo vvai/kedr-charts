@@ -54,6 +54,7 @@ export const StudentsGraph = ({ data, filters, homeworks }) => {
           {notRelevantYet.map((data) => (
             <span key={data.id} className="not-relevant-students__item">
               {data.name?.trim()}
+              {', '}
             </span>
           ))}
         </div>
