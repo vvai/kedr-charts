@@ -1,6 +1,8 @@
 import {
   collection,
   getDocs,
+  getDoc,
+  doc,
   query,
   where,
   orderBy,
@@ -26,13 +28,52 @@ const initialize = () => {
         const users = collection(db, 'users')
         const qUsers = query(users, orderBy(`rus_${month}`))
         const usersSnapshot = await getDocs(qUsers)
-        usersSnapshot.forEach((doc) => {
-          result[doc.id] = { ...doc.data(), id: doc.id, answers: [] }
+        usersSnapshot.forEach((userDoc) => {
+          result[userDoc.id] = {
+            ...userDoc.data(),
+            id: userDoc.id,
+            answers: [],
+          }
         })
 
         const answers = collection(db, `rus_${month}_answers`)
         const qAnswers = query(answers)
         // const qAnswers = query(answers, limit(30))
+        const answersSnapshot = await getDocs(qAnswers)
+        answersSnapshot.forEach((answerDoc) => {
+          const [userId, questionId] = answerDoc.id.split('_')
+          if (result[userId]) {
+            result[userId].answers.push({
+              questionId: questionId,
+              answer: {
+                ...answerDoc.data(),
+                createdAt: answerDoc.data().createdAt.seconds,
+              },
+            })
+          }
+        })
+        return Object.values(result)
+      } catch (e) {
+        console.error('error ', e)
+        return null
+      }
+    },
+    getStatsByUserId: async (userId, month) => {
+      try {
+        if (!month || !userId) {
+          return {}
+        }
+        const result = {}
+        const user = await getDoc(doc(db, 'users', userId))
+
+        if (!user.exists()) {
+          console.log('user not exist')
+          return null
+        }
+        result[user.id] = { ...user.data(), id: user.id, answers: [] }
+
+        const answers = collection(db, `rus_${month}_answers`)
+        const qAnswers = query(answers)
         const answersSnapshot = await getDocs(qAnswers)
         answersSnapshot.forEach((doc) => {
           const [userId, questionId] = doc.id.split('_')

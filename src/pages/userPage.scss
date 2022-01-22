@@ -1,0 +1,11 @@
+.user-page {
+  &__title {
+    padding: 24px;
+    padding-bottom: 12px;
+    // font-size: 12px;
+    line-height: 18px;
+  }
+  &__loading {
+    margin: 40px auto;
+  }
+}

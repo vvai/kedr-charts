@@ -1,5 +1,5 @@
 import React from 'react'
-import { GraphRow } from './graphRow'
+import { GraphRow } from '../graphRow/graphRow'
 
 function prepareData(data, filters, homeworks) {
   const homework = homeworks.find((h) => h.homeworkNumber === filters.homework)
@@ -54,6 +54,7 @@ export const StudentsGraph = ({ data, filters, homeworks }) => {
           {notRelevantYet.map((data) => (
             <span key={data.id} className="not-relevant-students__item">
               {data.name?.trim()}
+              {', '}
             </span>
           ))}
         </div>
