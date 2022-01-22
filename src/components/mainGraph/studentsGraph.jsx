@@ -1,5 +1,5 @@
 import React from 'react'
-import { GraphRow } from './graphRow'
+import { GraphRow } from '../graphRow/graphRow'
 
 function prepareData(data, filters, homeworks) {
   const homework = homeworks.find((h) => h.homeworkNumber === filters.homework)

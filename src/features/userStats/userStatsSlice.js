@@ -88,5 +88,7 @@ export const selectUserStatsLoadingStatus = (state) => state.userStats.status
 export const selectUserData = (state) => state.userStats.rawData
 export const selectFilters = (state) => state.userStats.filters
 export const selectMonths = (state) => state.userStats.months
+export const selectHomeworks = (state) => state.charts.homeworks
+export const selectTaskMetadata = (state) => state.charts.taskMetadata
 
 export default userStatsSlice.reducer

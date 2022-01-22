@@ -1,5 +1,5 @@
 import React from 'react'
-import { GraphRow } from './graphRow'
+import { GraphRow } from '../graphRow/graphRow'
 
 function prepareData(data, filters, homeworks, taskMetadata, months) {
   const studentsCount = data.length

@@ -9,9 +9,11 @@ import {
   selectUserData,
   selectMonths,
   selectFilters,
+  selectHomeworks,
+  selectTaskMetadata,
 } from '../features/userStats/userStatsSlice'
 import { selectFireInstance } from '../features/charts/chartsSlice'
-import { UserSettings } from '../components'
+import { UserSettings, UserGraph } from '../components'
 import './userPage.scss'
 
 // user example - 854133937
@@ -25,6 +27,8 @@ function UsersPage() {
   const loadingStatus = useSelector(selectUserStatsLoadingStatus)
   const months = useSelector(selectMonths)
   const filters = useSelector(selectFilters)
+  const homeworks = useSelector(selectHomeworks)
+  const taskMetadata = useSelector(selectTaskMetadata)
   useEffect(() => {
     async function initialize() {
       await fireInstance.signIn()
@@ -32,41 +36,48 @@ function UsersPage() {
     }
     initialize()
   }, [dispatch, fireInstance])
+  const shouldShowLoading = loadingStatus === 'loading' && !user
+  const graphLoading = loadingStatus === 'loading'
   return (
     <div className="Page">
       <Content>
-        {/* <GraphSettings
-          filters={filters}
-          homeworks={homeworks}
-          months={months}
-        /> */}
-        {loadingStatus !== 'loading' ? (
+        {!shouldShowLoading ? (
           user ? (
             <>
               <h1 className="user-page__title">{`${user.first_name || ''} ${
                 user.last_name || ''
               }`}</h1>
               <UserSettings filters={filters} months={months} />
+              {graphLoading ? (
+                <Space size="large">
+                  <Spin
+                    className="user-page__loading"
+                    tip="Loading..."
+                    size="large"
+                  />
+                </Space>
+              ) : (
+                <UserGraph
+                  filters={filters}
+                  data={user}
+                  homeworks={homeworks}
+                  taskMetadata={taskMetadata}
+                  months={months}
+                />
+              )}
             </>
           ) : (
-            <span>something is wrong with user id</span>
+            <h1>something is wrong with user id</h1>
           )
         ) : (
-          // <MainGraph
-          //   filters={filters}
-          //   data={rawData}
-          //   homeworks={homeworks}
-          //   taskMetadata={taskMetadata}
-          //   months={months}
-          // />
           <Space size="large">
-            <Spin tip="Loading..." size="large" />
+            <Spin
+              className="user-page__loading"
+              tip="Loading..."
+              size="large"
+            />
           </Space>
         )}
-        {/* <header className="App-header">
-          <BasicChart data={data} />
-          <p>Sample chart</p>
-        </header> */}
       </Content>
     </div>
   )
