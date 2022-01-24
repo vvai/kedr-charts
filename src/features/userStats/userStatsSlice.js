@@ -16,6 +16,7 @@ const initialState = {
     { value: 'nov', label: 'Ноябрь' },
     { value: 'dec', label: 'Декабрь' },
     { value: 'jan', label: 'Январь' },
+    { value: 'feb', label: 'Февраль' },
   ],
   homeworks: getHomeworkData(currentMonth),
   taskMetadata: getTaskMetadata(currentMonth),
