@@ -1,0 +1,13 @@
+.user-estimation {
+  display: flex;
+  flex-direction: column;
+  &__number {
+    font-weight: bold;
+    font-size: 40px;
+    line-height: 40px;
+  }
+  &__description {
+    font-size: 12px;
+    line-height: 18px;
+  }
+}
