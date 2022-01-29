@@ -32,11 +32,12 @@ export const fetchUserData = createAsyncThunk(
     const instance = state.charts?.fireInstance
     const result = await instance.getStatsByUserId(
       userId,
-      state.userStats.filters.month
+      state.userStats.filters.month,
+      state.userStats.currentMonth
     )
     console.log('user ', result, userId)
     // The value we return becomes the `fulfilled` action payload
-    return result && result.length ? { ...result[0], id: userId } : null
+    return result
   }
 )
 

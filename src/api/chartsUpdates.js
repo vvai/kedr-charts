@@ -14,6 +14,56 @@ import db, { auth } from './firebase'
 
 let unsubscribe, onUpdateCallback
 
+async function getLastUserAnswers(userId, count, currentMonth) {
+  const months = [
+    'dec',
+    'nov',
+    'oct',
+    // 'sep',
+    // 'aug',
+    // 'jul',
+    // 'jun',
+    // 'may',
+    // 'apr',
+    // 'mar',
+    'feb',
+    'jan',
+  ]
+  let maxCyclesCount = 4 // fail safe
+  const result = []
+  let currentMonthIndex = months.indexOf(currentMonth)
+  try {
+    while (result.length < count) {
+      const month = months[currentMonthIndex % months.length]
+      currentMonthIndex += 1
+      const leftCount = count - result.length
+      const answersCollection = collection(db, `rus_${month}_answers`)
+      const qAnswers = query(
+        answersCollection,
+        where('__name__', '<=', `${userId}\uf8ff`),
+        where('__name__', '>=', `${userId}`)
+      )
+      const answersSnapshot = await getDocs(qAnswers)
+      let answers = answersSnapshot.docs.map((doc) => {
+        const [_, questionId] = doc.id.split('_')
+        return {
+          id: doc.id,
+          questionId: Number.parseInt(questionId),
+          ...doc.data(),
+        }
+      })
+      if (!answers?.length || maxCyclesCount-- < 0) {
+        return result
+      }
+      answers.sort((a, b) => b.questionId - a.questionId)
+      result.push(...answers.slice(0, leftCount))
+    }
+  } catch (e) {
+    console.error(`get last user answers error ${e}`)
+  }
+  return result
+}
+
 const initialize = () => {
   return {
     signIn: async () => {
@@ -58,7 +108,7 @@ const initialize = () => {
         return null
       }
     },
-    getStatsByUserId: async (userId, month) => {
+    getStatsByUserId: async (userId, month, currentMonth) => {
       try {
         if (!month || !userId) {
           return {}
@@ -87,7 +137,17 @@ const initialize = () => {
             })
           }
         })
-        return Object.values(result)
+        if (result[userId]) {
+          const preparedUser = { ...result[userId], id: userId }
+          preparedUser.lastAnswers = await getLastUserAnswers(
+            userId,
+            100,
+            currentMonth
+          )
+          return preparedUser
+        } else {
+          return null
+        }
       } catch (e) {
         console.error('error ', e)
         return null

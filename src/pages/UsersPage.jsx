@@ -13,7 +13,7 @@ import {
   selectTaskMetadata,
 } from '../features/userStats/userStatsSlice'
 import { selectFireInstance } from '../features/charts/chartsSlice'
-import { UserSettings, UserGraph } from '../components'
+import { UserSettings, UserGraph, UserEstimation } from '../components'
 import './userPage.scss'
 
 // user example - 854133937
@@ -47,6 +47,7 @@ function UsersPage() {
               <h1 className="user-page__title">{`${user.first_name || ''} ${
                 user.last_name || ''
               }`}</h1>
+              <UserEstimation user={user} />
               <UserSettings filters={filters} months={months} />
               {graphLoading ? (
                 <Space size="large">
